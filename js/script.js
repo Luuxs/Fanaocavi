@@ -1,9 +1,9 @@
 /* --- CONFIGURACIÓN DE HISTORIAS CON RUTAS REALES --- */
 const historiasData = {
-    // 18 láminas con espacio antes del paréntesis (.jpg)
+    // 18 láminas (.jpg)
     historia1: Array.from({ length: 18 }, (_, i) => `img/colores/colores1 (${i + 1}).jpg`),
 
-    // 19 láminas con extensión (.png)
+    // 19 láminas (.png)
     historia2: Array.from({ length: 19 }, (_, i) => `img/ruta_ayuda/${i + 1}.png`)
 };
 
@@ -38,7 +38,7 @@ function openStory(id) {
     document.body.style.overflow = "hidden";
     container.scrollLeft = 0;
 
-    // Sincronizar miniatura activa cuando el usuario desliza con el mouse/touch
+    // Sincronizar miniatura activa al deslizar manualmente
     container.onscroll = () => {
         const slideWidth = container.querySelector("img")?.clientWidth || 300;
         const newIndex = Math.round(container.scrollLeft / (slideWidth + 30));
@@ -99,13 +99,72 @@ function closeModal() {
 /* --- EVENTOS GLOBALES DE LA WEB --- */
 document.addEventListener("DOMContentLoaded", () => {
     
-    // Flechas de navegación del modal
+    // 1. CONTROL DE VIDEOS (REELS + BARRA DE PROGRESO INTERACTIVA)
+    const wrappers = document.querySelectorAll(".video-wrapper");
+
+    wrappers.forEach(wrapper => {
+        const video = wrapper.querySelector("video");
+        const progressBar = wrapper.querySelector(".video-progress-bar");
+        const progressFill = wrapper.querySelector(".video-progress-fill");
+        if (!video) return;
+
+        // Play / Pausa al tocar el área del video
+        wrapper.addEventListener("click", (e) => {
+            // Evitar que el clic en la barra de progreso pause el video
+            if (e.target.closest(".video-progress-bar")) return;
+
+            if (video.paused) {
+                // Pausar cualquier otro video activo en la pantalla
+                document.querySelectorAll(".video-wrapper video").forEach(other => {
+                    if (other !== video) {
+                        other.pause();
+                        other.parentElement.classList.remove("is-playing");
+                    }
+                });
+
+                video.play();
+                wrapper.classList.add("is-playing");
+            } else {
+                video.pause();
+                wrapper.classList.remove("is-playing");
+            }
+        });
+
+        // Actualizar la línea de avance en tiempo real conforme avanza el video
+        video.addEventListener("timeupdate", () => {
+            if (video.duration && progressFill) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressFill.style.width = `${percent}%`;
+            }
+        });
+
+        // Adelantar o retroceder al hacer clic o arrastrar en la barra
+        if (progressBar) {
+            progressBar.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const rect = progressBar.getBoundingClientRect();
+                const clickPosition = e.clientX - rect.left;
+                const totalWidth = rect.width;
+                const targetPercentage = clickPosition / totalWidth;
+                
+                if (video.duration) {
+                    video.currentTime = targetPercentage * video.duration;
+                }
+            });
+        }
+
+        // Restaurar estado visual al finalizar
+        video.addEventListener("ended", () => {
+            wrapper.classList.remove("is-playing");
+        });
+    });
+
+    // 2. CONTROLES DEL MODAL DE HISTORIAS (BOTONES Y FONDO)
     const prevBtn = document.getElementById("modalPrev");
     const nextBtn = document.getElementById("modalNext");
     if (prevBtn) prevBtn.addEventListener("click", prevSlide);
     if (nextBtn) nextBtn.addEventListener("click", nextSlide);
 
-    // Cierre de modal (botón X y clic en el fondo)
     const closeBtn = document.querySelector(".close-modal");
     const modal = document.getElementById("storyModal");
 
@@ -117,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Navegación con teclado (Escape para salir, flechas para cambiar de lámina)
+    // Navegación con teclado (Escape para salir, flechas izquierda/derecha)
     document.addEventListener("keydown", (e) => {
         if (!modal || modal.style.display !== "flex") return;
         if (e.key === "Escape") closeModal();
@@ -125,14 +184,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "ArrowLeft") prevSlide();
     });
 
-    // 1. Fecha estilo periódico editorial
+    // 3. FECHA EDITORIAL AUTOMÁTICA
     const dateElement = document.getElementById("current-date");
     if (dateElement) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         dateElement.innerText = new Date().toLocaleDateString('es-ES', options).toUpperCase();
     }
 
-    // 2. Efecto reveal al hacer scroll
+    // 4. EFECTO REVEAL AL HACER SCROLL
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -144,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.observe(el);
     });
 
-    // 3. Paralaje sutil en el hero
+    // 5. PARALAJE SUTIL EN EL HERO
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const heroText = document.querySelector('h1');
@@ -154,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 4. Sonido hover sutil
+    // 6. EFECTO DE SONIDO HOVER SUTIL
     const hoverSound = new Audio('https://www.soundjay.com/buttons/sounds/button-21.mp3');
     hoverSound.volume = 0.05;
 

@@ -1,22 +1,11 @@
-/* Aplicamos la animación a las secciones principales */
-main, 
-.grid-container, 
-.gallery-container, 
-.about-container, 
-.contact-container {
-    animation: reveal-up 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
-}
-
-/* Retraso opcional para que los elementos no aparezcan todos a la vez */
-.grid-item:nth-child(1) { animation-delay: 0.2s; }
-.grid-item:nth-child(2) { animation-delay: 0.4s; }
-.grid-item:nth-child(3) { animation-delay: 0.6s; }
-/* Variables de Estilo Vintage */
+/* ==========================================================================
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   ========================================================================== */
 :root {
-    --fondo-crema: #F9F7F2;   /* Color papel antiguo */
-    --rosa-acento: #E8A2AF;    /* El rosa de tu dibujo (versión clásica) */
-    --texto-oscuro: #2B2B2B;   /* Gris carbón */
-    --lineas: #E0DDD5;        /* Gris muy suave para bordes */
+    --fondo-crema: #F9F7F2;
+    --rosa-acento: #e08b98;
+    --texto-oscuro: #2B2B2B;
+    --lineas: #E0DDD5;
 }
 
 * {
@@ -30,9 +19,37 @@ body {
     color: var(--texto-oscuro);
     font-family: 'Inter', sans-serif;
     padding: 0 6%;
+    overflow-x: hidden;
 }
 
-/* Navegación */
+/* Animaciones globales */
+@keyframes reveal-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main, 
+.grid-container, 
+.gallery-container, 
+.about-container, 
+.contact-container,
+.stories-section {
+    animation: reveal-up 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+
+.grid-item:nth-child(1) { animation-delay: 0.2s; }
+.grid-item:nth-child(2) { animation-delay: 0.4s; }
+.grid-item:nth-child(3) { animation-delay: 0.6s; }
+
+/* ==========================================================================
+   2. NAVEGACIÓN Y ENCABEZADOS COMUNES
+   ========================================================================== */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -52,7 +69,9 @@ body {
     display: flex;
 }
 
-.nav-links li { margin-left: 40px; }
+.nav-links li { 
+    margin-left: 40px; 
+}
 
 .nav-links a {
     text-decoration: none;
@@ -60,12 +79,26 @@ body {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    transition: 0.3s;
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover { color: var(--rosa-acento); }
+.nav-links a:hover { 
+    color: var(--rosa-acento); 
+}
 
-/* Hero Section */
+.intro-tag {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.72rem;
+    color: var(--rosa-acento);
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: block;
+}
+
+/* ==========================================================================
+   3. INICIO / HOME (GRID PRINCIPAL)
+   ========================================================================== */
 .hero {
     padding: 80px 0 120px 0;
     max-width: 900px;
@@ -87,7 +120,6 @@ body {
     font-style: italic;
 }
 
-/* Grid de Secciones */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -108,25 +140,27 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(100%); /* Fotos en B&N por defecto */
-    transition: 0.6s ease;
+    filter: grayscale(100%);
+    transition: transform 0.6s ease, filter 0.6s ease;
 }
 
-/* Efecto al pasar el mouse (Hover) */
 .grid-item:hover img {
     filter: grayscale(0%);
     transform: scale(1.05);
 }
 
-.grid-item:hover .overlay {
-    background-color: rgba(232, 162, 175, 0.2); /* Baño de tu color rosa */
-}
-
 .overlay {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
     z-index: 1;
-    transition: 0.4s;
+    transition: background-color 0.4s ease;
+}
+
+.grid-item:hover .overlay {
+    background-color: rgba(232, 162, 175, 0.2);
 }
 
 .grid-item h3 {
@@ -136,60 +170,65 @@ body {
     text-align: center;
 }
 
-.grid-item a { text-decoration: none; color: var(--texto-oscuro); }
-
-/* Footer */
-.footer {
-    padding-bottom: 50px;
-    text-align: center;
+.grid-item a { 
+    text-decoration: none; 
+    color: var(--texto-oscuro); 
 }
 
-.footer-line {
-    height: 1px;
-    background-color: var(--lineas);
-    margin-bottom: 30px;
+/* ==========================================================================
+   4. MARQUEE / LOGOS INFINITOS
+   ========================================================================== */
+.carrusel-medios {
+    width: 100%;
+    padding: 40px 0;
+    background-color: var(--fondo-crema);
+    overflow: hidden;
+    position: relative;
 }
 
-.footer p {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.6;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.2rem; }
-    .navbar { flex-direction: column; gap: 20px; }
-}
-/* Estilos para los iconos del footer */
-.social-icons {
-    margin-bottom: 25px;
+.marquee-container {
     display: flex;
-    justify-content: center;
-    gap: 30px; /* Espacio entre iconos */
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
-.social-icons a {
-    color: var(--texto-oscuro);
-    font-size: 1.5rem; /* Tamaño de los iconos */
+.marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    flex-shrink: 0;
+    min-width: 100%;
+    animation: scroll-infinito 30s linear infinite;
+}
+
+.marquee-content img {
+    height: 40px;
+    width: auto;
+    filter: grayscale(100%);
+    opacity: 0.5;
     transition: all 0.3s ease;
-    text-decoration: none;
 }
 
-/* Efecto al pasar el mouse: se vuelven rosas y suben un poco */
-.social-icons a:hover {
-    color: var(--rosa-acento);
-    transform: translateY(-3px);
+.marquee-content img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
 }
 
-.footer p {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.6;
+@keyframes scroll-infinito {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
-/* Estilos específicos para la página de Fotografías */
+
+.marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+/* ==========================================================================
+   5. FOTOGRAFÍAS
+   ========================================================================== */
 .page-header {
     text-align: center;
     padding: 60px 0;
@@ -197,7 +236,7 @@ body {
 
 .gallery-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Crea columnas automáticas */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 40px;
     margin-bottom: 100px;
 }
@@ -208,7 +247,7 @@ body {
 }
 
 .gallery-item .image-wrapper {
-    height: 500px; /* Altura fija para que todas se vean uniformes */
+    height: 500px;
 }
 
 .photo-caption {
@@ -221,100 +260,9 @@ body {
     font-weight: 600;
 }
 
-/* Efecto suave al entrar a la página */
-.gallery-item {
-    animation: fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.carrusel-medios {
-  width: 100%;
-  padding: 40px 0;
-  background-color: var(--fondo-crema); /* O el color que prefieras */
-  overflow: hidden;
-  position: relative;
-}
-
-/* El contenedor con el efecto de desvanecido lateral */
-.marquee-container {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  /* Este es el truco para que se vea como en Apuesta Total */
-  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-}
-
-.marquee-content {
-  display: flex;
-  align-items: center;
-  gap: 80px; /* Espacio entre logos */
-  flex-shrink: 0;
-  min-width: 100%;
-  animation: scroll-infinito 30s linear infinite;
-}
-
-.marquee-content img {
-  height: 40px; /* Ajusta el tamaño según necesites */
-  width: auto;
-  filter: grayscale(100%); /* B&N para estilo vintage */
-  opacity: 0.5;
-  transition: all 0.3s ease;
-}
-
-/* Al pasar el mouse, cobra vida como la referencia */
-.marquee-content img:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* Animación fluida */
-@keyframes scroll-infinito {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%); /* Se desplaza la mitad exacta */
-  }
-}
-
-/* Pausa suave para que el usuario pueda ver bien un logo */
-.marquee-container:hover .marquee-content {
-  animation-play-state: paused;
-}
-/* --- AJUSTES PARA MÓVIL --- */
-@media (max-width: 768px) {
-    
-    /* 1. Las fotos se apilan una debajo de otra */
-    .grid-container {
-        display: flex;
-        flex-direction: column;
-        gap: 40px; /* Espacio entre cada sección */
-    }
-
-    /* 2. Ajustamos la altura para que la foto respire */
-    .image-wrapper {
-        height: 400px; /* Altura ideal para que se vea casi toda la foto en vertical */
-        width: 100%;
-    }
-
-    /* 3. Aseguramos que no se distorsione */
-    .grid-item img {
-        object-fit: cover; 
-        object-position: center top; /* Prioriza que se vea su rostro si la foto es alta */
-    }
-
-    /* 4. Ajustamos el título (H1) para que no sea gigante en móvil */
-    .hero h1 {
-        font-size: 1.8rem;
-        line-height: 1.3;
-    }
-}
-/* Estilos para Sobre Mí */
+/* ==========================================================================
+   6. SOBRE MÍ
+   ========================================================================== */
 .about-section {
     padding: 60px 0 100px 0;
 }
@@ -341,19 +289,8 @@ body {
     z-index: 2;
 }
 
- 
- 
-
 .about-content {
     flex: 1.2;
-}
-
-.intro-tag {
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 0.7rem;
-    color: var(--rosa-acento);
-    margin-bottom: 20px;
 }
 
 .about-content h1 {
@@ -405,16 +342,9 @@ body {
     color: white;
 }
 
-/* Ajuste móvil */
-@media (max-width: 768px) {
-    .about-container {
-        flex-direction: column;
-        gap: 40px;
-    }
-    .about-image img { height: 400px; }
-    .about-content h1 { font-size: 2rem; }
-}
-/* --- PÁGINA DE CONTACTO --- */
+/* ==========================================================================
+   7. CONTACTO
+   ========================================================================== */
 .contact-section {
     padding: 80px 5%;
     max-width: 1100px;
@@ -440,7 +370,6 @@ body {
     gap: 100px;
 }
 
-/* Info lateral */
 .info-item {
     margin-bottom: 40px;
 }
@@ -458,7 +387,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* Formulario Estilizado */
 .contact-form {
     display: flex;
     flex-direction: column;
@@ -514,37 +442,13 @@ body {
     transform: translateY(-3px);
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-    .contact-container {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-    
-    .contact-header h1 {
-        font-size: 1.8rem;
-    }
-}
-/* Definimos la animación de entrada */
-@keyframes reveal-up {
-    0% {
-        opacity: 0;
-        transform: translateY(30px); /* Empieza 30px más abajo */
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0); /* Termina en su posición original */
-    }
-}
-
-/* --- ESTILOS PÁGINA HISTORIAS --- */
-
+/* ==========================================================================
+   8. HISTORIAS Y VISOR EDITORIAL (MODAL)
+   ========================================================================== */
 .stories-section {
     padding: 80px 5%;
     max-width: 1200px;
     margin: 0 auto;
-    /* Animación de entrada como Helena Georgiou */
-    animation: reveal-up 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
 
 .stories-header {
@@ -564,13 +468,11 @@ body {
     gap: 20px;
 }
 
-/* Forzamos que el grid-item de historias tenga una altura fija elegante */
 .story-item .image-wrapper {
     height: 400px;
     background-color: var(--fondo-crema);
 }
 
-/* Efectos de texto */
 .category {
     font-size: 0.7rem;
     color: var(--rosa-acento);
@@ -597,193 +499,25 @@ body {
 }
 
 .read-more {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 2px;
     color: var(--texto-oscuro);
-    text-decoration: none;
+    padding: 0;
     transition: 0.3s ease;
+    display: inline-block;
 }
 
 .read-more:hover {
     color: var(--rosa-acento);
-    padding-left: 10px; /* Pequeño desplazamiento al pasar el cursor */
+    padding-left: 10px;
 }
 
-/* Animación de Revelado (Helena Georgiou style) */
-@keyframes reveal-up {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Ajuste Celular */
-@media (max-width: 768px) {
-    .stories-grid {
-        grid-template-columns: 1fr;
-    }
-    .story-item .image-wrapper {
-        height: 300px;
-    }
-}
-/* --- POPUP SLIDER HORIZONTAL --- */
-
-/* Fondo del modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.95); /* Negro profundo para que resalten las fotos */
-    backdrop-filter: blur(10px);
-    justify-content: center;
-    align-items: center;
-}
-
-/* Botón cerrar flotante */
-.close-modal {
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    color: white;
-    font-size: 50px;
-    font-weight: 300;
-    cursor: pointer;
-    z-index: 10001;
-    transition: 0.3s;
-}
-
-.close-modal:hover {
-    color: var(--rosa-acento);
-}
-
-/* Contenedor del Slider */
-.slider-mode {
-    width: 100%;
-    height: 80vh; /* Alto de la pantalla */
-    display: flex;
-    align-items: center;
-}
-
-.slider-container {
-    display: flex;
-    overflow-x: auto; /* Scroll horizontal activo */
-    scroll-snap-type: x mandatory; /* Efecto imán al deslizar */
-    gap: 40px; /* Espacio entre cada foto */
-    padding: 0 10%; /* Espacio al inicio y al final */
-    width: 100%;
-    height: 100%;
-    scrollbar-width: none; /* Ocultar barra en Firefox */
-}
-
-/* Ocultar barra en Chrome/Safari */
-.slider-container::-webkit-scrollbar {
-    display: none;
-}
-
-/* Estilo de cada imagen del carrusel */
-.slider-container img {
-    flex-shrink: 0; /* Evita que las fotos se aplasten */
-    height: 100%; /* Toma todo el alto del modal */
-    width: auto; /* Mantiene la proporción */
-    max-width: 90vw; /* Evita que se pase del ancho del celular */
-    object-fit: contain;
-    scroll-snap-align: center; /* Centra la foto automáticamente */
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    border-radius: 4px;
-}
-
-/* Ajustes para móviles */
-@media (max-width: 768px) {
-    .slider-container {
-        gap: 20px;
-        padding: 0 5%;
-    }
-    .slider-container img {
-        height: auto;
-        width: 100%; /* En móvil que la foto sea la protagonista */
-    }
-}
-
-.videos-section {
-    padding: 80px 5%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-/* Grid equilibrado para 4 videos: 2 columnas en escritorio, 1 en celular */
-.reels-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 320px);
-    gap: 50px 40px;
-    justify-content: center;
-}
-
-.reel-card {
-    display: flex;
-    flex-direction: column;
-    background: transparent;
-    transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-}
-
-.reel-card:hover {
-    transform: translateY(-8px);
-}
-
-/* Marco vertical tipo smartphone / revista */
-.video-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 9 / 16;
-    border-radius: 12px;
-    overflow: hidden;
-    background-color: #111;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-}
-
-.video-wrapper video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Textos editoriales */
-.reel-info {
-    padding-top: 18px;
-    text-align: left;
-}
-
-.reel-info .category {
-    font-size: 0.68rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--rosa-acento);
-    font-weight: 600;
-    display: block;
-    margin-bottom: 6px;
-}
-
-.reel-info h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    line-height: 1.35;
-    color: var(--texto-oscuro);
-    font-weight: 600;
-}
-
-@media (max-width: 768px) {
-    .reels-grid {
-        grid-template-columns: 1fr;
-        max-width: 320px;
-        margin: 0 auto;
-    }
-}
-/* --- VISOR EDITORIAL: MODAL, FLECHAS Y MINIATURAS --- */
-
-/* Contenedor oscuro de fondo */
+/* Modal fondo */
 .modal {
     display: none;
     position: fixed;
@@ -795,7 +529,6 @@ body {
     align-items: center;
 }
 
-/* Botón cerrar (X) */
 .close-modal {
     position: fixed;
     top: 25px;
@@ -811,11 +544,10 @@ body {
 }
 
 .close-modal:hover {
-    color: var(--rosa-acento, #e08b98);
+    color: var(--rosa-acento);
     transform: scale(1.15);
 }
 
-/* Estructura vertical del modal */
 .modal-content.slider-mode {
     display: flex;
     flex-direction: column;
@@ -827,7 +559,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Carrusel de fotos grandes */
 .slider-container {
     display: flex;
     gap: 30px;
@@ -858,7 +589,6 @@ body {
     user-select: none;
 }
 
-/* Flechas laterales flotantes */
 .modal-arrow {
     position: fixed;
     top: 50%;
@@ -880,20 +610,14 @@ body {
 }
 
 .modal-arrow:hover {
-    background: var(--rosa-acento, #e08b98);
-    border-color: var(--rosa-acento, #e08b98);
+    background: var(--rosa-acento);
+    border-color: var(--rosa-acento);
     transform: translateY(-50%) scale(1.1);
 }
 
-.modal-arrow.prev {
-    left: 30px;
-}
+.modal-arrow.prev { left: 30px; }
+.modal-arrow.next { right: 30px; }
 
-.modal-arrow.next {
-    right: 30px;
-}
-
-/* Tira de miniaturas inferior */
 .thumbs-container {
     display: flex;
     gap: 12px;
@@ -932,60 +656,153 @@ body {
 
 .thumbs-container img.active-thumb {
     opacity: 1;
-    border-color: var(--rosa-acento, #e08b98);
+    border-color: var(--rosa-acento);
     transform: scale(1.08);
 }
 
-/* Reset para el botón "LEER HISTORIA —" */
-.read-more {
-    background: none;
-    border: none;
+/* ==========================================================================
+   9. VIDEOS / REELS
+   ========================================================================== */
+.videos-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+}
+
+.videos-header {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 50px;
+}
+
+.videos-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--texto-oscuro);
+    margin: 10px 0;
+}
+
+.section-desc {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+.reels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+    gap: 45px 30px;
+    justify-content: center;
+}
+
+.reel-card {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    transition: transform 0.3s ease;
+}
+
+.reel-card:hover {
+    transform: translateY(-6px);
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background-color: #121212;
+    border-radius: 16px;
+    overflow: hidden;
     cursor: pointer;
-    font-family: inherit;
-    font-size: 0.8rem;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.video-wrapper:hover {
+    box-shadow: 0 20px 45px rgba(224, 139, 152, 0.2);
+}
+
+.video-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.play-overlay i {
+    font-size: 1.8rem;
+    color: #ffffff;
+    width: 65px;
+    height: 65px;
+    background: rgba(224, 139, 152, 0.85);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s ease;
+}
+
+.video-wrapper.is-playing .play-overlay {
+    opacity: 0;
+}
+
+.reel-info {
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.reel-info .category {
+    font-size: 0.68rem;
     letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rosa-acento);
     font-weight: 600;
-    color: var(--texto-oscuro, #222);
-    padding: 0;
-    margin-top: 15px;
-    display: inline-block;
-    transition: color 0.3s ease;
 }
 
-.read-more:hover {
-    color: var(--rosa-acento, #e08b98);
+.reel-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.12rem;
+    line-height: 1.35;
+    color: var(--texto-oscuro);
+    margin: 2px 0 0;
 }
 
-/* Adaptación para pantallas pequeñas */
-@media (max-width: 768px) {
-    .modal-arrow {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-
-    .modal-arrow.prev {
-        left: 12px;
-    }
-
-    .modal-arrow.next {
-        right: 12px;
-    }
-
-    .slider-container {
-        padding: 10px 5vw;
-    }
-
-    .thumbs-container {
-        max-width: 95vw;
-        height: 60px;
-    }
-
-    .thumbs-container img {
-        height: 42px;
-    }
+.video-time {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 4px;
 }
-/* --- REDES SOCIALES EN FOOTER --- */
+
+/* ==========================================================================
+   10. FOOTER Y REDES SOCIALES
+   ========================================================================== */
+.footer {
+    padding-bottom: 50px;
+    text-align: center;
+}
+
+.footer-line {
+    height: 1px;
+    background-color: var(--lineas);
+    margin-bottom: 30px;
+}
+
 .social-icons {
     display: flex;
     justify-content: center;
@@ -1001,7 +818,7 @@ body {
     height: 44px;
     border-radius: 50%;
     border: 1px solid rgba(0, 0, 0, 0.12);
-    color: var(--texto-oscuro, #222);
+    color: var(--texto-oscuro);
     font-size: 1.1rem;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
@@ -1010,16 +827,23 @@ body {
 
 .social-icons a:hover {
     color: #fff;
-    background-color: var(--rosa-acento, #e08b98);
-    border-color: var(--rosa-acento, #e08b98);
+    background-color: var(--rosa-acento);
+    border-color: var(--rosa-acento);
     transform: translateY(-3px);
 }
-/* =========================================
-   AJUSTES RESPONSIVOS PARA MÓVILES (<= 768px)
-   ========================================= */
-@media (max-width: 768px) {
 
-    /* 1. Barra de Navegación */
+.footer p {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+/* ==========================================================================
+   11. MEDIA QUERIES GENERALES (MÓVIL <= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Navbar */
     .navbar {
         flex-direction: column;
         gap: 15px;
@@ -1028,58 +852,138 @@ body {
     }
 
     .nav-links {
-        display: flex;
-        flex-wrap: wrap;       /* Permite que los links bajen si no caben */
+        flex-wrap: wrap;
         justify-content: center;
         gap: 12px 16px;
         padding: 0;
         margin: 0;
-        list-style: none;
+    }
+
+    .nav-links li {
+        margin-left: 0;
     }
 
     .nav-links a {
-        font-size: 0.72rem;     /* Letra más compacta */
+        font-size: 0.72rem;
         letter-spacing: 1px;
     }
 
-    /* 2. Sección General y Encabezados */
-    .videos-section,
-    .stories-section,
-    .photography-section {
-        padding: 40px 18px;     /* Márgenes laterales seguros */
-    }
-
-    .videos-header h1,
-    .stories-header h1,
-    .photography-header h1 {
-        font-size: 1.6rem;      /* Título ajustado al ancho de pantalla */
+    /* Hero e Inicio */
+    .hero h1 { 
+        font-size: 2rem; 
         line-height: 1.25;
     }
 
-    .intro-tag {
-        font-size: 0.7rem;
-        letter-spacing: 1.5px;
+    .grid-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
     }
 
-    /* 3. Cuadrícula de Videos / Reels */
+    .image-wrapper {
+        height: 400px;
+    }
+
+    .grid-item img {
+        object-position: center top;
+    }
+
+    /* Sobre mí */
+    .about-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .about-image img { 
+        height: 400px; 
+    }
+
+    .about-content h1 { 
+        font-size: 2rem; 
+    }
+
+    /* Contacto */
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .contact-header h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Historias y Modal */
+    .stories-section {
+        padding: 40px 18px;
+    }
+
+    .stories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .story-item .image-wrapper {
+        height: 300px;
+    }
+
+    .modal-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .modal-arrow.prev { left: 12px; }
+    .modal-arrow.next { right: 12px; }
+
+    .slider-container {
+        padding: 10px 5vw;
+    }
+
+    .thumbs-container {
+        max-width: 95vw;
+        height: 60px;
+    }
+
+    .thumbs-container img {
+        height: 42px;
+    }
+
+    /* Videos */
+    .videos-section {
+        padding: 40px 16px 70px;
+    }
+
+    .videos-header h1 {
+        font-size: 1.6rem;
+    }
+
     .reels-grid {
-        grid-template-columns: 1fr; /* Una sola columna centrada */
+        grid-template-columns: 1fr;
         max-width: 320px;
         margin: 0 auto;
-        gap: 35px;
+        gap: 45px;
     }
+}
+/* --- BARRA DE PROGRESO INFERIOR (REELS) --- */
+.video-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    z-index: 10;
+    transition: height 0.2s ease;
+}
 
-    .video-wrapper {
-        width: 100%;
-        max-width: 320px;
-        aspect-ratio: 9 / 16;
-        border-radius: 12px;
-        margin: 0 auto;
-    }
+.video-wrapper:hover .video-progress-bar {
+    height: 10px; /* Se expande un poco al pasar el mouse para facilitar el clic */
+}
 
-    /* 4. Evitar cualquier desplazamiento horizontal fantasma */
-    html, body {
-        overflow-x: hidden;
-        max-width: 100vw;
-    }
+.video-progress-fill {
+    width: 0%;
+    height: 100%;
+    background-color: var(--rosa-acento, #e08b98);
+    pointer-events: none;
+    transition: width 0.1s linear;
 }
