@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historias | FANAOCAVI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">FANAOCAVI</a></div>
+        <ul class="nav-links">
+            <li><a href="sobre-mi.html">SOBRE MÍ</a></li>
+            <li><a href="historias.html" style="color: var(--rosa-acento);">HISTORIAS</a></li>
+            <li><a href="fotografias.html">FOTOGRAFÍAS</a></li>
+            <li><a href="videos.html">VIDEOS</a></li>
+            <li><a href="contacto.html">CONTACTO</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="stories-section">
+        <header class="stories-header">
+            <p class="intro-tag">Narrativas periodísticas</p>
+            <h1>Historias que merecen ser contadas.</h1>
+        </header>
+
+        <div class="stories-grid">
+            
+            <!-- Historia 1: Milagros de Colores -->
+            <article class="story-item">
+                <div class="grid-item">
+                    <div class="image-wrapper">
+                        <div class="overlay"></div>
+                        <img src="img/milagros_colores.jpg" alt="Vidas en Juego">
+                    </div>
+                </div>
+                <div class="story-info">
+                    <span class="category">Investigación</span>
+                    <h2>Vidas en juego: El impacto de las apuestas en adolescentes</h2>
+                    <p>Un análisis profundo sobre las consecuencias de la ludopatía digital en jóvenes.</p>
+                    <button type="button" class="read-more" onclick="openStory('historia1')">LEER HISTORIA —</button>
+                </div>
+            </article>
+
+            <!-- Historia 2: Rutas de Ayuda -->
+            <article class="story-item">
+                <div class="grid-item">
+                    <div class="image-wrapper">
+                        <div class="overlay"></div>
+                        <img src="img/rutasdeayuda.png" alt="Migración">
+                    </div>
+                </div>
+                <div class="story-info">
+                    <span class="category">Crónica Humana</span>
+                    <h2>Volver a empezar: El camino de un emprendedor migrante</h2>
+                    <p>La historia de Ronald y los desafíos de la independencia laboral en Perú.</p>
+                    <button type="button" class="read-more" onclick="openStory('historia2')">LEER HISTORIA —</button>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- Modal Visor Editorial: Láminas + Flechas + Miniaturas -->
+    <div id="storyModal" class="modal">
+        <span class="close-modal">&times;</span>
+
+        <!-- Botones de flecha para pasar láminas -->
+        <button class="modal-arrow prev" id="modalPrev" aria-label="Anterior">&#10094;</button>
+        <button class="modal-arrow next" id="modalNext" aria-label="Siguiente">&#10095;</button>
+
+        <div class="modal-content slider-mode">
+            <!-- Fotos a tamaño completo -->
+            <div id="modalBody" class="slider-container"></div>
+            
+            <!-- Tira inferior de miniaturas -->
+            <div id="modalThumbs" class="thumbs-container"></div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+    <div class="footer-line"></div>
+    <div class="social-icons">
+        <a href="https://www.instagram.com/fanaocavi_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.tiktok.com/@fanaocavi" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+        </a>
+    </div>
+    <p>© 2026 — Lima, Perú</p>
+</footer>
+
+    <!-- Script único -->
+    <script src="js/script.js"></script>
+</body>
+</html>
