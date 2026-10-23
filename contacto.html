@@ -15,7 +15,9 @@
         <ul class="nav-links">
             <li><a href="sobre-mi.html">SOBRE MÍ</a></li>
             <li><a href="historias.html">HISTORIAS</a></li>
+            <!-- Oculto temporalmente hasta tener las fotos seleccionadas:
             <li><a href="fotografias.html">FOTOGRAFÍAS</a></li>
+            -->
             <li><a href="videos.html">VIDEOS</a></li>
             <li><a href="contacto.html" style="color: var(--rosa-acento);">CONTACTO</a></li>
         </ul>
@@ -35,7 +37,7 @@
                 </div>
                 <div class="info-item">
                     <h3>Email</h3>
-                    <p>fncabezas@bausate.edu.pe</p>
+                    <p><a href="mailto:fncabezas@bausate.edu.pe" style="text-decoration:none; color:inherit;">fncabezas@bausate.edu.pe</a></p>
                 </div>
                 <div class="info-item">
                     <h3>Redes Sociales</h3>
@@ -43,14 +45,15 @@
                 </div>
             </div>
 
-            <form class="contact-form">
+            <!-- Coloca tu enlace de Formspree en el action -->
+            <form class="contact-form" action="https://formspree.io/f/TU_ID_AQUI" method="POST">
                 <div class="form-group">
                     <label>Nombre Completo</label>
                     <input type="text" name="name" placeholder="Tu nombre aquí..." required>
                 </div>
                 <div class="form-group">
                     <label>Correo Electrónico</label>
-                    <input type="email" name="email" placeholder="fncabezas@bausate.edu.pe" required>
+                    <input type="email" name="_replyto" placeholder="ejemplo@correo.com" required>
                 </div>
                 <div class="form-group">
                     <label>Mensaje</label>
@@ -61,18 +64,18 @@
         </div>
     </main>
 
-   <footer class="footer">
-    <div class="footer-line"></div>
-    <div class="social-icons">
-        <a href="https://www.instagram.com/fanaocavi_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.tiktok.com/@fanaocavi" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-            <i class="fab fa-tiktok"></i>
-        </a>
-    </div>
-    <p>© 2026 — Lima, Perú</p>
-</footer>
+    <footer class="footer">
+        <div class="footer-line"></div>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/fanaocavi_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@fanaocavi" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+        </div>
+        <p>© 2026 — Lima, Perú</p>
+    </footer>
 
 </body>
 </html>
